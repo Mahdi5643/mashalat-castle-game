@@ -1,0 +1,1402 @@
+/* --- 1. Global Page Styles (The <body> tag) --- */
+body {
+    margin: 0; /* Ensures header touches the top and side edges */
+    background-color: #333333; /* A dark gray for the background */
+    color: #ffffff;      /* White color for the text */
+    font-family: 'Vazirmatn', sans-serif;
+}
+
+/* --- 2. Utility/Centering Styles --- */
+.center-text {
+    text-align: center;
+}
+
+.center-image {
+    text-align: center;
+}
+
+.inline-image {
+    vertical-align: middle;
+}
+
+/* --- Container Box Style --- */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+    box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+/* --- 3. Collapsible/Accordion Styles (Floating Glassmorphism Button) --- */
+.toggle-button {
+	position: relative; /* <-- ADD THIS LINE */
+    font-family: 'Vazirmatn', sans-serif; 
+    font-size: 20px; 
+    padding: 14px 24px; 
+	/* ... rest of your rules ... */
+    
+    /* Glassmorphism Styling */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* Safari support */
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50px; /* Pill shape in closed state */
+    
+    /* Layout & Shadow */
+    width: 100%;
+    text-align: center;  
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    margin-bottom: 8px; 
+    
+    /* Plus/Minus Flex Container Layout */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+
+	/* FIX: Adds spacing between the text and the symbol & handles long text wrapping */
+    gap: 16px; 
+    word-break: break-word;
+}
+
+.toggle-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px); /* Subtle float effect on hover */
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Morph shape to rounded box when active */
+.toggle-button.active {
+    border-radius: 18px 18px 0 0;
+    background: rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 0;
+}
+
+/* --- Pure CSS Animated Plus / Minus Icon --- */
+.toggle-button::after {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    position: relative;
+    flex-shrink: 0;
+    margin-left: 12px;
+    
+    /* Horizontal & Vertical bar forming the "+" */
+    background: 
+        linear-gradient(#ffffff, #ffffff) center/100% 2px no-repeat,
+        linear-gradient(#ffffff, #ffffff) center/2px 100% no-repeat;
+    
+    /* Smooth rotation transition */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Rotate and collapse vertical line into a "-" when open */
+.toggle-button.active::after {
+    transform: rotate(180deg);
+    background: linear-gradient(#ffffff, #ffffff) center/100% 2px no-repeat;
+}
+
+/* --- 4. Collapsible/Accordion Styles (Glassmorphism Content) --- */
+.collapsible-content {
+    font-size: 20px; 
+    line-height: 1.5em; 
+    
+    /* Matching Glassmorphism background for active container */
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-top: none;
+    border-radius: 0 0 18px 18px;
+    box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.25);
+    margin-bottom: 12px;
+
+    /* Expand transition */
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                padding 0.4s ease, 
+                opacity 0.3s ease; 
+    padding: 0 24px; 
+}
+
+.collapsible-content.active {
+    max-height: 100vh; /* Note from Mahdi5643: This used to be 45em, but I asked Gemini to find any structural errors in this CSS, and it said that this is too low, and said to change it to 2000px or 100vh. (2026, July 30th, Thursday, 2:09 AM GMT +3:30) */ /* Another Note: I changed it from 2000px to 100vh (2026, July 31th, Friday, 5:59 PM GMT +3:30) */
+    padding: 16px 24px; 
+    opacity: 1;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Default styles apply to mobile/small screens first */
+.navigation {
+    display: flex;
+    flex-direction: column; /* Stack vertically on phones */
+}
+
+/* --- Custom Glassmorphism Dialog --- */
+
+/* Update .custom-dialog */
+.custom-dialog {
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  background: rgba(35, 35, 35, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  max-width: 500px;
+  width: 90%;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* REMOVED: overflow: hidden; (2026, July 31th, Friday, 1:25 AM GMT +3:30) */
+
+  /* FIX: Prevent click hijacking when closed */
+  pointer-events: none; /* Disables all click interaction when closed */
+
+  /* FIX 1: Prevent dialog from exceeding screen height */
+  /* FIX: Ensure dialog uses flex and caps at 85vh cleanly */
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevents whole dialog from spilling over border-radius */
+
+  /* Keep your existing animation & transition properties below this */
+	
+  /* Smooth Entrance & Exit Transition Setup */
+  opacity: 0;
+  transform: scale(0.92) translateY(12px);
+  transition: 
+    opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    display 0.35s allow-discrete,
+    overlay 0.35s allow-discrete;
+}
+
+/* Open State for Dialog */
+/* Re-enable clicks when the dialog is explicitly open */
+.custom-dialog[open] {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto; /* Enables click events ONLY when opened */
+}
+
+/* Starting style for smooth OPENING animation from hidden state */
+@starting-style {
+  .custom-dialog[open] {
+    opacity: 0;
+    transform: scale(0.92) translateY(12px);
+  }
+}
+
+/* --- Backdrop Overlay Styles & Animation --- */
+.custom-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: 
+    opacity 0.35s ease,
+    display 0.35s allow-discrete,
+    overlay 0.35s allow-discrete;
+}
+
+.custom-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .custom-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* --- Dialog Layout & Content Styling --- */
+
+/* FIX 2: Convert card container to Flexbox to handle sticky headers/footers */
+/* Update your existing .dialog-card rule */
+/* Ensure the outer card maintains proper internal inset padding */
+.dialog-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  /* REMOVED height: 100%; */
+  max-height: 85vh; /* Sync max height with dialog outer constraint */
+  box-sizing: border-box;
+  overflow: hidden; /* Clips scrolling content within card borders */
+  width: 100%; /* Keeps borders constrained inside padding */
+}
+
+/* ADD THIS MEDIA QUERY right under .dialog-card: */
+@media (max-width: 600px) {
+  .dialog-card {
+    padding: 16px; /* Reduces outer padding on mobile to free up space */
+    max-height: 90vh; /* Gives dialog slightly more room on small screens */
+  }
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  flex-shrink: 0; /* Ensures header never shrinks */ /* Keeps header fixed at top */
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Decorative Close "X" Button */
+.dialog-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dialog-close-btn:hover {
+  background: rgba(239, 68, 68, 0.8); /* Accent red highlight on hover */
+  border-color: rgba(239, 68, 68, 1);
+  transform: rotate(90deg);
+}
+
+/* FIX 3: Make the dialog body scrollable independently */
+.dialog-body {
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  overflow-y: auto; /* Adds scrollbar only inside body when content overflows */ /* Handles the scrolling inside middle section */
+  padding-right: 6px; /* Prevents scrollbar from covering text */
+  margin-bottom: 16px; /* Creates guaranteed space above the footer */
+}
+
+/* Webkit scrollbar styling for seamless glass look */
+.dialog-body::-webkit-scrollbar {
+  width: 6px;
+}
+.dialog-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+.dialog-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Constrain footer border and prevent button stretch */
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; /* Prevents buttons from stretching vertically */
+  gap: 12px;
+  margin-top: 12px; /* Used to be 24px (2026, July 31th, Friday, 1:34 AM GMT +3:30) */
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0; /* Keeps footer fixed at bottom */
+  /* REMOVED margin-bottom: 0; */ /* Prevents margin collapses */
+  /* REMOVED background: transparent; */
+  width: 100%;
+  box-sizing: border-box; /* Keeps horizontal line within parent padding */
+  
+  /* ↓ Added by Mahdi5643 to fix buttons sticking to the bottom and sides of the dialog footer (2026, August 3rd, Monday, 1:50 AM GMT +3:30) */
+  padding-bottom: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* Footer Action Buttons */
+/* DELETE or REMOVE this snippet from your CSS: */
+/* FIX 4: Secure padding around the footer buttons */
+/* Replace your .dialog-footer block with this: */
+/* Ensure buttons don't stretch to fill full line width unexpectedly */
+.dialog-action-btn {
+  font-family: 'Vazirmatn', sans-serif;
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: auto; /* Prevents full-width stretch */
+  flex-shrink: 0; /* Ensures footer stays visible at bottom without shrinking */
+}
+
+@media (max-width: 480px) {
+  .dialog-footer {
+    flex-direction: column-reverse; /* Stacks buttons neatly; primary action stays on top */
+  }
+  
+  .dialog-action-btn {
+    width: 100%; /* Full width buttons for easy mobile tapping */
+    text-align: center;
+  }
+}
+
+.dialog-action-btn.primary {
+  background: linear-gradient(135deg, #4338ca, #312e81);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.dialog-action-btn.primary:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+.dialog-action-btn.secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.dialog-action-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* --- Form Glassmorphism Styles --- */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Glassmorphic Form Controls */
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 16px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    outline: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Dropdown option background for dark mode readability */
+.contact-form select option {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+/* Active / Focus State */
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Button Layout */
+.button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.form-btn {
+    flex: 1;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Primary Gmail Action */
+.btn-gmail {
+    background: rgba(234, 67, 53, 0.35);
+    color: #ffffff;
+    border-color: rgba(234, 67, 53, 0.5);
+}
+
+.btn-gmail:hover {
+    background: rgba(234, 67, 53, 0.55);
+    border-color: rgba(234, 67, 53, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(234, 67, 53, 0.3);
+}
+
+/* Default Mail App Action */
+.btn-default {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.btn-default:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+/* Style inputs that are optional */
+.contact-form input:optional {
+    border-style: dashed; /* Example visual cue */
+}
+
+/* --- Standard Glassmorphism Button --- */
+.glass-btn {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+    
+    /* Glassmorphism styling */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px; /* Pill shape matching your form styles */
+    
+    padding: 12px 28px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Primary Accent Glassmorphism Button --- */
+.glass-btn-primary {
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    
+    /* Header Gradient styling with subtle transparency */
+    background: linear-gradient(135deg, rgba(67, 56, 202, 0.85), rgba(49, 46, 129, 0.85));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50px;
+    
+    padding: 12px 28px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 8px 24px rgba(67, 56, 202, 0.3);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.glass-btn-primary:hover {
+    background: linear-gradient(135deg, rgba(67, 56, 202, 1), rgba(49, 46, 129, 1));
+    border-color: rgba(255, 255, 255, 0.45);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(67, 56, 202, 0.45);
+}
+
+.glass-btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Flexible inline-colored glass button */
+.glass-btn-custom {
+    /* Uses --btn-color if set inline, defaults to Indigo */
+    --accent: var(--btn-color, #4338ca);
+    
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    
+    /* Base style using the inline CSS variable */
+    background: var(--accent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50px;
+    padding: 12px 28px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Hover state dynamically brightens whatever inline color was set */
+.glass-btn-custom:hover {
+    filter: brightness(1.25);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px var(--accent);
+}
+
+.glass-btn-custom:active {
+    transform: translateY(0);
+    filter: brightness(1);
+}
+
+/* --- Glassmorphic Ripple Effect --- */
+
+/* Anchor & clip ripples ONLY on standard action buttons (EXCLUDE .toggle-button) */ /* Allows clicks to pass through */ /* Prevents ripple from blocking accordion clicks */
+.glass-btn, 
+.glass-btn-primary, 
+.form-btn, 
+.dialog-action-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Ripple Element */ /* The expanding translucent circle */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: glass-ripple-anim 0.6s linear;
+    background: rgba(255, 255, 255, 0.35); /* White glass glow */
+    pointer-events: none; /* ESSENTIAL: Prevents ripple from intercepting clicks */ /* Allows clicks to pass through */ /* Prevents ripple from blocking accordion clicks */
+}
+
+@keyframes glass-ripple-anim {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* 1. Remove the light blue overlay on mobile devices (iOS/Android Safari & Chrome) */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 2. Remove default focus outlines ONLY on mouse click/touch, keeping them for keyboard users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Base button styling */
+.pulse-btn {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #0f172a; /* Slate 900 */
+  border: 1px solid #334155;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.pulse-btn:hover {
+  background-color: #1e293b;
+}
+
+/* 1. Reset standard focus for mouse clicks */
+.pulse-btn:focus {
+  outline: none;
+}
+
+/* 2. Apply animated pulse ring on keyboard focus */
+.pulse-btn:focus-visible {
+  /* Crisp inner border ring for high accessibility contrast */
+  outline: 2px solid #6366f1; /* Indigo 500 */
+  outline-offset: 3px;
+  
+  /* Trigger the infinite pulse animation */
+  animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 3. Define the glowing pulse keyframes */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0px rgba(99, 102, 241, 0.7);
+  }
+  70% {
+    /* Expand the glow ring outwards while fading opacity */
+    box-shadow: 0 0 0 12px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0px rgba(99, 102, 241, 0);
+  }
+}
+
+/* 4. Respect accessibility settings for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pulse-btn:focus-visible {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.5);
+  }
+}
+
+/* Base form field styling */
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #0f172a;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1; /* Neutral slate border */
+  border-radius: 6px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* 1. Clear browser default outlines */
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+}
+
+/* 2. Custom focus state (Applies on both click and keyboard tab-navigation) */
+.form-input:focus-visible,
+.form-textarea:focus-visible {
+  /* Shift the actual input border color to match primary theme */
+  border-color: #2563eb; 
+
+  /* Crisp high-contrast outline offset for accessibility */
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+
+  /* Subtle ring fill to soften the visual transition */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* 3. Error state with corresponding focus ring */
+.form-input.is-error,
+.form-textarea.is-error {
+  border-color: #dc2626;
+}
+
+.form-input.is-error:focus-visible,
+.form-textarea.is-error:focus-visible {
+  border-color: #dc2626;
+  outline-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* Mobile responsiveness matching your existing query limit */ /* Note from Mahdi5643: I moved this from a few lines up to make the buttons don't mess with the accordion bars. (2026, July 30th, Thursday, 9:08 PM GMT +3:30) */
+@media (max-width: 600px) {
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .form-btn {
+        font-size: 14px;
+        padding: 12px 16px;
+    }
+}
+
+/* Base container context for dark mode */
+.dark-mode-container {
+  background-color: #0f172a; /* Slate 900 */
+  color: #f8fafc;
+  padding: 32px;
+}
+
+/* Common button styling */
+.dark-btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Clear default browser outline on all examples */
+.dark-btn:focus {
+  outline: none;
+}
+
+
+/* -------------------------------------------------------------------
+   APPROACH 2: Double-Ring / High-Contrast Sandwich (Maximum Accessibility)
+   Best for: Strict WCAG AAA compliance, variable/unpredictable dark backgrounds
+   ------------------------------------------------------------------- */
+.btn-dual {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-dual:focus-visible {
+  /* 1. Inner dark ring creates physical separation from the button color */
+  outline: 2px solid #0f172a;
+  outline-offset: 2px;
+  /* 2. Outer bright white/yellow ring ensures visibility on any background */
+  box-shadow: 0 0 0 4px #facc15; /* Yellow 400 */
+}
+
+/* ==========================================================================
+   1. CUSTOM CHECKBOXES & RADIO BUTTONS
+   ========================================================================== */
+
+/* Container wrapper */
+.control-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #1e293b;
+}
+
+/* Visually hide native inputs while keeping them accessible to screen readers */
+.control-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Custom Checkbox visual box */
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #64748b;
+  border-radius: 4px;
+  background-color: #ffffff;
+  transition: all 0.15s ease-in-out;
+}
+
+/* Custom Radio visual circle */
+.custom-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #64748b;
+  border-radius: 50%;
+  background-color: #ffffff;
+  transition: all 0.15s ease-in-out;
+}
+
+/* Checked States */
+.control-input:checked + .custom-checkbox {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.control-input:checked + .custom-radio {
+  border-color: #2563eb;
+  background-color: #ffffff;
+  box-shadow: inset 0 0 0 4px #2563eb;
+}
+
+/* ACCESSIBLE FOCUS RINGS: Triggered when native hidden input gets keyboard focus */
+.control-input:focus-visible + .custom-checkbox,
+.control-input:focus-visible + .custom-radio {
+  outline: 2px solid #2563eb;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+
+/* ==========================================================================
+   2. SELECT DROPDOWNS
+   ========================================================================== */
+
+/* Native select element styling */
+.custom-select {
+  appearance: none; /* Strip default browser arrow/styles */
+  width: 100%;
+  padding: 10px 36px 10px 14px;
+  font-size: 1rem;
+  color: #0f172a;
+  background-color: #ffffff;
+  /* Custom SVG dropdown arrow */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%20475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Clear default focus */
+.custom-select:focus {
+  outline: none;
+}
+
+/* Accessible focus ring on dropdown */
+.custom-select:focus-visible {
+  border-color: #2563eb;
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Base field styles */
+.form-field {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+/* Standard focus state for editable fields */
+.form-field:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+
+/* ==========================================================================
+   1. DISABLED ELEMENTS (:disabled or [aria-disabled="true"])
+   ========================================================================== */
+
+.form-field:disabled,
+.form-field[aria-disabled="true"] {
+  background-color: #f1f5f9; /* Slate 100 */
+  color: #94a3b8;            /* Slate 400 - Low contrast signals inert state */
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Explicitly remove focus rings if a disabled element somehow receives focus */
+.form-field:disabled:focus,
+.form-field:disabled:focus-visible,
+.form-field[aria-disabled="true"]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #e2e8f0 !important;
+}
+
+
+/* ==========================================================================
+   2. READ-ONLY ELEMENTS (:read-only)
+   ========================================================================== */
+
+.form-field:read-only {
+  background-color: #f8fafc; /* Slate 50 - Slightly off-white */
+  color: #334155;            /* Slate 700 - Full contrast readability */
+  border-color: #cbd5e1;
+  cursor: default;           /* Regular arrow pointer, not text beam */
+}
+
+/* Distinct focus state for Read-Only: Neutral gray ring instead of active blue */
+.form-field:read-only:focus-visible {
+  outline: 2px solid #64748b; /* Neutral Slate 500 ring */
+  outline-offset: 1px;
+  border-color: #64748b;
+  box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.15);
+}
+
+/* ==========================================================================
+   1. GLOBAL THEME VARIABLES
+   ========================================================================== */
+
+:root {
+  /* Default Light Mode Focus Variables */
+  --focus-ring-color: #2563eb;          /* Primary Blue (WCAG 3:1+ vs white) */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+  
+  /* Read-only / Neutral Focus Variant */
+  --focus-ring-neutral-color: #64748b;
+  --focus-ring-neutral-shadow: 0 0 0 4px rgba(100, 116, 139, 0.2);
+}
+
+/* Automatic Dark Mode (System preference or class-based override) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode Focus Variables (High-luminance cyan for dark slate/black backgrounds) */
+    --focus-ring-color: #22d3ee;        /* Bright Cyan 400 */
+    --focus-ring-offset: 3px;           /* Extra gap for dark contrast */
+    --focus-ring-shadow: 0 0 8px rgba(34, 211, 238, 0.35);
+
+    --focus-ring-neutral-color: #cbd5e1;
+    --focus-ring-neutral-shadow: 0 0 8px rgba(203, 213, 225, 0.25);
+  }
+}
+
+/* Class-based Dark Mode Override (e.g., toggled via JavaScript) */
+[data-theme="dark"] {
+  --focus-ring-color: #22d3ee;
+  --focus-ring-offset: 3px;
+  --focus-ring-shadow: 0 0 8px rgba(34, 211, 238, 0.35);
+  --focus-ring-neutral-color: #cbd5e1;
+  --focus-ring-neutral-shadow: 0 0 8px rgba(203, 213, 225, 0.25);
+}
+
+
+/* ==========================================================================
+   2. REUSABLE UTILITY CLASS / MIXIN EQUIVALENT
+   ========================================================================== */
+
+/* Universal Focus Reset (Clears default mouse outlines globally) */
+:focus {
+  outline: none;
+}
+
+/* Universal Focus Utility (Apply to any interactive element) */
+.focus-ring:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  box-shadow: var(--focus-ring-shadow);
+}
+
+
+/* ==========================================================================
+   3. COMPONENT-LEVEL VARIANTS & OVERRIDES
+   ========================================================================== */
+
+/* Read-Only Override: Locally redefines variable without duplicating rules */
+.form-input:read-only:focus-visible {
+  --focus-ring-color: var(--focus-ring-neutral-color);
+  --focus-ring-shadow: var(--focus-ring-neutral-shadow);
+}
+
+/* Error State Override */
+.form-input.has-error:focus-visible {
+  --focus-ring-color: #ef4444; /* Red 500 */
+  --focus-ring-shadow: 0 0 0 4px rgba(239, 68, 68, 0.25);
+}
+
+/* Inset Variant for Tight Layouts (e.g. data table cells) */
+.table-cell-action:focus-visible {
+  --focus-ring-offset: -3px;
+}
+
+/* Base LTR styles */
+ul.custom-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.custom-list li {
+  position: relative;
+  /* Reduced from 1.8rem to 1.1rem to bring text closer to the bullet */
+  padding-inline-start: 1.1rem; 
+  padding-right: 0;
+  margin-bottom: 0.5rem;
+}
+
+ul.custom-list li::before {
+  content: "🚀"; /* \2713 */
+  position: absolute;
+  left: 0;
+  right: auto;
+  top: 0;
+  color: #06d6a0;
+  font-weight: bold;
+}
+
+/* RTL Specific Overrides */
+[dir="rtl"] ul.custom-list li,
+ul.custom-list[dir="rtl"] li {
+  padding-left: 0;
+  padding-right: 1.8rem;
+}
+
+[dir="rtl"] ul.custom-list li::before,
+ul.custom-list[dir="rtl"] li::before {
+  left: auto;
+  right: 0;
+}
+
+/* ==========================================================================
+   1. ACCESSIBLE KEYBOARD FOCUS & WCAG SYSTEM (Scoped to avoid breaking layouts)
+   ========================================================================== */
+
+/* Universal Focus-Visible Reset (preserves default outline for mouse clicks) */
+:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
+/* High-Contrast Dual-Ring Focus for Keyboard Navigation */
+:focus-visible,
+.focus-ring:focus-visible {
+  outline: 2px solid #22d3ee !important; /* High-luminance Cyan */
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.35) !important;
+}
+
+/* Pulse Animation Variant (for explicit CTA buttons) */
+.pulse-btn:focus-visible {
+  outline: 2px solid #6366f1 !important;
+  outline-offset: 3px !important;
+  animation: pulse-ring 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0px rgba(99, 102, 241, 0.7); }
+  70% { box-shadow: 0 0 0 12px rgba(99, 102, 241, 0); }
+  100% { box-shadow: 0 0 0 0px rgba(99, 102, 241, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-btn:focus-visible {
+    animation: none;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.5) !important;
+  }
+}
+
+
+/* ==========================================================================
+   2. CUSTOM DIALOGS (Alert, Confirm, Prompt Glassmorphism Modals)
+   ========================================================================== */
+
+/* Backdrop Overlay with Screen Padding */
+.custom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 999999;
+  animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Glassmorphism Modal Box */
+.custom-modal-box {
+  background: rgba(22, 27, 34, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 
+              0 0 0 1px rgba(255, 255, 255, 0.08);
+  font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.custom-modal-body p {
+  margin: 0 0 16px 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Dark Glassmorphism Input Field (Prompt Dialog) */
+.custom-modal-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: #ffffff;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.custom-modal-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.custom-modal-input:focus {
+  border-color: rgba(96, 165, 250, 0.8);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+/* Modal Footer & Action Buttons */
+.custom-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.custom-btn {
+  font-family: inherit;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+/* Primary/OK Button */
+.ok-btn {
+  background: rgba(37, 99, 235, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.ok-btn:hover {
+  background: rgba(37, 99, 235, 1);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Cancel Button */
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+/* Modal Animations */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.custom-modal-overlay.fade-out {
+  animation: modalFadeOut 0.15s ease-in forwards;
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* On desktop screens (600px and larger) */
+@media (min-width: 600px) {
+    .navigation {
+        flex-direction: row; /* Display side-by-side on desktop */
+    }
+}
+
+/* --- Mobile Responsive Fixes --- */
+@media (max-width: 600px) {
+    /* --- ADD THESE HEADER MOBILE FIXES: --- */
+    /* --- MOBILE HEADER COMPACT STYLES --- */
+    .top-header {
+	        /* 1. CHANGE THIS FOR HEIGHT:
+           First number (10px) is top/bottom padding.
+           Increase it (e.g., 18px) to make the header taller.
+           Decrease it (e.g., 6px) to make the header thinner. */
+        padding: 6px 12px; /* Super compact padding */
+    }
+
+    .top-header h1 {
+        font-size: 1.6rem; /* Slightly larger than h2 (which is usually ~1.3rem - 1.5rem) */
+        line-height: 1.2;
+        margin: 0;
+        
+        /* Flexbox centers text and icons neatly on one compact row */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;/* Space between text and the icons */
+    }
+
+	/* ... rest of your mobile CSS ... */
+    /* Force the header images to override the HTML width="50" height="50" */
+    /* MATCH DESKTOP ICON SIZE ON MOBILE */
+	/* Reduce mobile header icon size so they don't stretch the header height */
+    .top-header h1 img.inline-image {
+        width: 30px !important;   /* Set this to 30px or 50px to match desktop exactly */
+        height: 30px !important;
+        max-width: 30px !important;
+    }
+    /* Scale down top image so it doesn't overwhelm small screens */
+    .center-image > img {
+        width: 180px;
+        height: auto;
+    }
+
+    /* Reduce container padding on narrow screens */
+    .container {
+        padding: 16px;
+        margin: 16px auto;
+    }
+
+    /* Standardize button text size for mobile readability */
+    .toggle-button {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    /* Standardize expandable body text size for mobile */
+    .collapsible-content {
+        font-size: 15px;
+        padding: 0 16px;
+    }
+
+    .collapsible-content.active {
+        padding: 12px 16px;
+    }
+
+    /* Ensure body inline icons (inside buttons/text) stay clean */
+    .inline-image {
+        max-width: 25px; 
+        height: auto;
+        display: inline-block;
+    }
+	/* ✅ Closes @media (max-width: 600px) */
+    /* ... keep all your other mobile rules below this ... */
+    /* ... rest of your existing mobile rules stay unchanged ... */
+    
+    /* Scale down top image so it doesn't overwhelm small screens */
+    .center-image > img {
+        width: 180px;
+        height: auto;
+    }
+
+    /* Reduce container padding on narrow screens */
+    .container {
+        padding: 16px;
+        margin: 16px auto;
+    }
+
+    /* Standardize button text size for mobile readability */
+    .toggle-button {
+        font-size: 14px;
+        padding: 12px 16px;
+    }
+
+    /* Standardize expandable body text size for mobile */
+    .collapsible-content {
+        font-size: 15px;
+        padding: 0 16px;
+    }
+
+    .collapsible-content.active {
+        padding: 12px 16px;
+    }
+
+    /* Ensure inline icons keep their set width and don't stretch on mobile */
+    .inline-image {
+        max-width: 25px; /* Fits both 25px and 50px icons cleanly */
+        height: auto;
+        display: inline-block;
+    }
+
+    /* Keep the header icons sized correctly on mobile */
+    h1 .inline-image {
+        max-width: 35px;
+    }
+} /* ✅ Only ONE bracket closes @media (max-width: 600px) */
+
+/* --- TOP HEADER (Gradient + Sticky) --- */
+.top-header {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+    padding: 24px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+    /* Sticky Header Settings */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-header h1 {
+    margin: 0;
+    color: #ffffff;
+  }
