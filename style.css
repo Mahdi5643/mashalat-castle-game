@@ -1265,12 +1265,13 @@ ul.custom-list[dir="rtl"] li::before {
 }
 
 /* Container handles sizing, aspect ratio, and modern styling */
+/* Base Desktop Styles */
 .castle-game-wrapper {
   /* Dimensions & Centering */
-  width: calc(100% - 32px);    /* Keeps 16px gap on left & right */
+  width: 100%;
   max-width: 420px;
   aspect-ratio: 9 / 16;
-  margin: 2rem auto;           /* Centers the game horizontally */
+  margin: 2rem auto;
   
   /* Visual Appearance */
   position: relative;
@@ -1285,8 +1286,7 @@ ul.custom-list[dir="rtl"] li::before {
     
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
- 
-/* Subtle elevation movement when hovered on desktop */
+
 .castle-game-wrapper:hover {
   transform: translateY(-4px);
   box-shadow: 
@@ -1294,7 +1294,6 @@ ul.custom-list[dir="rtl"] li::before {
     0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
-/* Iframe fills the wrapper completely */
 .castle-game-wrapper iframe {
   width: 100%;
   height: 100%;
@@ -1302,11 +1301,13 @@ ul.custom-list[dir="rtl"] li::before {
   display: block;
 }
 
-/* Optional mobile adjustments */
+/* Mobile Specific Adjustments */
 @media (max-width: 480px) {
   .castle-game-wrapper {
-    max-width: 100%;            /* Fills small screen widths with margin */
-    border-radius: 16px;        /* Slightly tighter corners on mobile */
+    /* Sets the width to 100% minus 32px to create a 16px gap on both sides */
+    width: calc(100% - 32px);
+    margin: 1.5rem auto;       /* Ensures auto-centering horizontally */
+    border-radius: 16px;
   }
 }
 
