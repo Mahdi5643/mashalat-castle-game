@@ -1267,26 +1267,25 @@ ul.custom-list[dir="rtl"] li::before {
 /* Container handles sizing, aspect ratio, and modern styling */
 .castle-game-wrapper {
   /* Dimensions & Centering */
-  width: 100%;
-  max-width: 420px;            /* Max width on desktop viewports */
-  aspect-ratio: 9 / 16;        /* Matches standard mobile game proportions */
-  margin: 2rem auto;
+  width: calc(100% - 32px);    /* Keeps 16px gap on left & right */
+  max-width: 420px;
+  aspect-ratio: 9 / 16;
+  margin: 2rem auto;           /* Centers the game horizontally */
   
   /* Visual Appearance */
   position: relative;
   border-radius: 20px;
-  background-color: #0d0e12;  /* Fallback dark color while game loads */
+  background-color: #0d0e12;
   overflow: hidden;
   
   /* Glow & Elevation Effects */
   box-shadow: 
     0 20px 40px -15px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.1); /* Subtle glowing border */
+    0 0 0 1px rgba(255, 255, 255, 0.1);
     
-  /* Smooth scale animation on hover */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+ 
 /* Subtle elevation movement when hovered on desktop */
 .castle-game-wrapper:hover {
   transform: translateY(-4px);
