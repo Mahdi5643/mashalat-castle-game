@@ -1311,6 +1311,15 @@ ul.custom-list[dir="rtl"] li::before {
   }
 }
 
+/* Add text-decoration: none to prevent underlines on <a> tags */
+.glass-btn,
+.glass-btn-primary,
+.glass-btn-custom {
+    text-decoration: none; /* Prevents underlines when used on <a> tags */
+    color: #ffffff;
+    /* ... rest of your existing CSS styles ... */
+}
+
 /* On desktop screens (600px and larger) */
 @media (min-width: 600px) {
     .navigation {
